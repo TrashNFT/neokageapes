@@ -1,0 +1,9 @@
+/* Sword cursor styles */
+.sword-cursor {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L4 8v16l12 6 12-6V8L16 2zm0 2.828L26.828 8 16 12.828 5.172 8 16 4.828zM6 10.172l10 5v9.656l-10-5V10.172zm12 14.656V15.172l10-5v9.656l-10 5z' fill='%23ff00ff'/%3E%3C/svg%3E") 16 16, auto;
+}
+
+/* Hover effect for interactive elements */
+.sword-cursor-hover {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L4 8v16l12 6 12-6V8L16 2zm0 2.828L26.828 8 16 12.828 5.172 8 16 4.828zM6 10.172l10 5v9.656l-10-5V10.172zm12 14.656V15.172l10-5v9.656l-10 5z' fill='%2300ffff'/%3E%3C/svg%3E") 16 16, auto;
+} 

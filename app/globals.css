@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    cursor: url('/cursor.png'), auto;
+  }
+}
+
+@layer components {
+  .neo-container {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .neo-button {
+    @apply px-8 py-3 bg-neo-cyan text-neo-black font-bold rounded-lg 
+    transition-all duration-300 relative overflow-hidden
+    hover:shadow-[0_0_20px_#00ffff] hover:scale-105;
+  }
+
+  .neo-button-outline {
+    @apply px-8 py-3 border-2 border-neo-magenta text-neo-magenta font-bold rounded-lg
+    transition-all duration-300 relative overflow-hidden
+    hover:shadow-[0_0_20px_#ff00ff] hover:scale-105;
+  }
+
+  .neo-card {
+    @apply bg-neo-black/80 backdrop-blur-sm border border-neo-purple/50
+           rounded-lg p-6 hover:border-neo-cyan transition-colors duration-300;
+  }
+
+  .neo-text-glow {
+    text-shadow: 0 0 10px currentColor;
+  }
+}
+
+/* Cyberpunk Grid Background */
+.cyber-grid {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+}
+
+/* Glowing Text Effects */
+.text-glow-cyan {
+  color: var(--neo-cyan);
+  text-shadow: 
+    0 0 5px var(--neo-cyan),
+    0 0 10px var(--neo-cyan),
+    0 0 20px var(--neo-cyan);
+}
+
+.text-glow-magenta {
+  color: var(--neo-magenta);
+  text-shadow: 
+    0 0 5px var(--neo-magenta),
+    0 0 10px var(--neo-magenta),
+    0 0 20px var(--neo-magenta);
+}
+
+/* Animated Border */
+.neo-border {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--neo-black), var(--neo-black)) padding-box,
+              linear-gradient(90deg, var(--neo-cyan), var(--neo-magenta)) border-box;
+  animation: borderAnimation 4s linear infinite;
+}
+
+@keyframes borderAnimation {
+  0% { border-image-source: linear-gradient(90deg, var(--neo-cyan), var(--neo-magenta)); }
+  50% { border-image-source: linear-gradient(270deg, var(--neo-magenta), var(--neo-cyan)); }
+  100% { border-image-source: linear-gradient(90deg, var(--neo-cyan), var(--neo-magenta)); }
+}
+
+/* Scanline Effect */
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0, 255, 255, 0.02) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Digital Rain Characters */
+@keyframes rain {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.digital-rain {
+  position: fixed;
+  color: var(--neo-cyan);
+  font-family: monospace;
+  font-size: 20px;
+  user-select: none;
+  pointer-events: none;
+  text-shadow: 0 0 5px var(--neo-cyan);
+  animation: rain 10s linear infinite;
+  opacity: 0.3;
+}
+
+/* Cherry Blossom Animation */
+@keyframes fall {
+  0% {
+    transform: translateY(-10%) rotate(0deg);
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
+.cherry-blossom {
+  position: absolute;
+  pointer-events: none;
+  animation: fall linear infinite;
+} 
