@@ -6,10 +6,23 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const runtime = 'edge';
-export const dynamic = 'force-dynamic';
+// Remove dynamic and runtime exports
+// export const dynamic = 'force-dynamic';
+// export const runtime = 'edge';
 
 export async function POST(request: Request) {
+  // Add CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+
+  // Handle OPTIONS request
+  if (request.method === 'OPTIONS') {
+    return new NextResponse(null, { headers });
+  }
+
   try {
     const body = await request.json();
     const { twitter, wallet } = body;
@@ -17,7 +30,7 @@ export async function POST(request: Request) {
     if (!twitter || !wallet) {
       return NextResponse.json(
         { message: 'Twitter and wallet are required' },
-        { status: 400 }
+        { status: 400, headers }
       );
     }
 
@@ -37,19 +50,19 @@ export async function POST(request: Request) {
       console.error('Supabase error:', error);
       return NextResponse.json(
         { message: 'Failed to store application' },
-        { status: 500 }
+        { status: 500, headers }
       );
     }
 
     return NextResponse.json(
       { message: 'Application received successfully' },
-      { status: 200 }
+      { status: 200, headers }
     );
   } catch (error) {
     console.error('Whitelist application error:', error);
     return NextResponse.json(
       { message: 'Internal server error' },
-      { status: 500 }
+      { status: 500, headers }
     );
   }
 } 
