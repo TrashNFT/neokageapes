@@ -1,4 +1,10 @@
 import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
@@ -15,10 +21,25 @@ export async function POST(request: Request) {
       );
     }
 
-    // Here you would typically:
-    // 1. Validate the wallet address
-    // 2. Store the application in a database
-    // 3. Send confirmation emails, etc.
+    // Store in Supabase
+    const { data, error } = await supabase
+      .from('whitelist_applications')
+      .insert([
+        {
+          twitter_handle: twitter,
+          wallet_address: wallet,
+          status: 'pending',
+          created_at: new Date().toISOString(),
+        },
+      ]);
+
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json(
+        { message: 'Failed to store application' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       { message: 'Application received successfully' },
