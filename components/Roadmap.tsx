@@ -7,7 +7,7 @@ const roadmapSteps = [
   {
     phase: 'Phase 1',
     title: 'Genesis Launch',
-    description: 'Initial release of 10,000 unique NeoKage Apes, each with distinct cyber-shinobi traits.',
+    description: 'Initial release of 251 unique NeoKage Apes, each with distinct shinobi traits.',
     status: 'completed',
   },
   {

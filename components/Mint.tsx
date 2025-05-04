@@ -29,6 +29,8 @@ const Mint = () => {
 
   const handleInputSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!inputValue.trim()) return;
+
     if (terminalStep === 'twitter') {
       setTwitter(inputValue);
       setTerminalLines((lines) => [...lines, `$ ${inputValue}`, 'Please enter your APE wallet address:']);
@@ -48,16 +50,17 @@ const Mint = () => {
           body: JSON.stringify({ twitter, wallet: inputValue }),
         });
 
+        const data = await response.json();
+
         if (response.ok) {
           setTerminalLines((lines) => [...lines, 'Successfully applied!']);
           setTerminalStep('success');
         } else {
-          const errorText = await response.text();
-          setTerminalLines((lines) => [...lines, `There was an error. Please try again. (${errorText})`]);
+          setTerminalLines((lines) => [...lines, `Error: ${data.message || 'Failed to submit application'}`]);
           setTerminalStep('idle');
         }
       } catch (error: any) {
-        setTerminalLines((lines) => [...lines, `There was an error. Please try again. (${error.message})`]);
+        setTerminalLines((lines) => [...lines, `Error: ${error.message || 'Failed to submit application'}`]);
         setTerminalStep('idle');
       } finally {
         setIsInputDisabled(false);

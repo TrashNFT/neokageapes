@@ -1,0 +1,1 @@
+"use strict";exports.id=151,exports.ids=[151],exports.modules={3151:(e,s,t)=>{t.r(s),t.d(s,{$$typeof:()=>p,__esModule:()=>r,default:()=>a});let o=(0,t(6843).createProxy)(String.raw`C:\Users\RoG StriX\Desktop\Neokage Apes\app\components\JapaneseGrid.tsx`),{__esModule:r,$$typeof:p}=o,a=o.default}};
