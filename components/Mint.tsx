@@ -51,20 +51,22 @@ const Mint = () => {
       try {
         const response = await fetch('/api/whitelist', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
           body: JSON.stringify({ twitter, wallet: inputValue }),
         });
 
-        const data = await response.json();
-
-        if (response.ok) {
-          setTerminalLines((lines) => [...lines, 'Successfully applied!']);
-          setTerminalStep('success');
-        } else {
-          setTerminalLines((lines) => [...lines, `Error: ${data.message || 'Failed to submit application'}`]);
-          setTerminalStep('idle');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        const data = await response.json();
+        setTerminalLines((lines) => [...lines, 'Successfully applied!']);
+        setTerminalStep('success');
       } catch (error: any) {
+        console.error('Error submitting application:', error);
         setTerminalLines((lines) => [...lines, `Error: ${error.message || 'Failed to submit application'}`]);
         setTerminalStep('idle');
       } finally {
