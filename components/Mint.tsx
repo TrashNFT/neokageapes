@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const TerminalLine = ({ text }: { text: string }) => (
@@ -11,12 +11,17 @@ const TerminalLine = ({ text }: { text: string }) => (
 );
 
 const Mint = () => {
+  const [mounted, setMounted] = useState(false);
   const [terminalStep, setTerminalStep] = useState<'idle' | 'init' | 'twitter' | 'wallet' | 'submitting' | 'success'>('idle');
   const [twitter, setTwitter] = useState('');
   const [wallet, setWallet] = useState('');
   const [terminalLines, setTerminalLines] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isInputDisabled, setIsInputDisabled] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleApply = () => {
     setTerminalLines(['Initializing apply process...']);
@@ -67,6 +72,10 @@ const Mint = () => {
       }
     }
   };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <section id="apply" className="py-24 relative overflow-hidden">
