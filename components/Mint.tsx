@@ -36,32 +36,43 @@ const Mint = () => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    setTerminalLines(prev => [...prev, `> Submitting application for ${inputValue}...`]);
-    
-    try {
-      const response = await fetch('/api/whitelist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          twitter: inputValue,
-          wallet: '0x0000000000000000000000000000000000000000' // Placeholder for now
-        })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.message || `HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setTerminalLines(prev => [...prev, `> ${data.message}`]);
+    if (terminalStep === 'twitter') {
+      setTwitter(inputValue);
+      setTerminalLines((lines) => [...lines, `$ ${inputValue}`, 'Please enter your APE wallet address:']);
       setInputValue('');
-    } catch (error) {
-      console.error('Error submitting application:', error);
-      setTerminalLines(prev => [...prev, `> Error: ${error instanceof Error ? error.message : 'Failed to submit application'}`]);
+      setTerminalStep('wallet');
+    } else if (terminalStep === 'wallet') {
+      setWallet(inputValue);
+      setTerminalLines((lines) => [...lines, `$ ${inputValue}`, 'Submitting your application...']);
+      setInputValue('');
+      setTerminalStep('submitting');
+      setIsInputDisabled(true);
+
+      try {
+        const response = await fetch('/api/whitelist', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({ twitter, wallet: inputValue }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => null);
+          throw new Error(errorData?.message || `HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setTerminalLines((lines) => [...lines, `> ${data.message}`]);
+        setTerminalStep('success');
+      } catch (error) {
+        console.error('Error submitting application:', error);
+        setTerminalLines((lines) => [...lines, `> Error: ${error instanceof Error ? error.message : 'Failed to submit application'}`]);
+        setTerminalStep('idle');
+      } finally {
+        setIsInputDisabled(false);
+      }
     }
   };
 
