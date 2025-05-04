@@ -43,6 +43,7 @@ const Mint = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
           twitter: inputValue,
@@ -51,7 +52,8 @@ const Mint = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || `HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
