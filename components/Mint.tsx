@@ -53,20 +53,20 @@ const Mint = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
           },
           body: JSON.stringify({ twitter, wallet: inputValue }),
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
         const data = await response.json();
-        setTerminalLines((lines) => [...lines, 'Successfully applied!']);
-        setTerminalStep('success');
+
+        if (response.ok) {
+          setTerminalLines((lines) => [...lines, 'Successfully applied!']);
+          setTerminalStep('success');
+        } else {
+          setTerminalLines((lines) => [...lines, `Error: ${data.message || 'Failed to submit application'}`]);
+          setTerminalStep('idle');
+        }
       } catch (error: any) {
-        console.error('Error submitting application:', error);
         setTerminalLines((lines) => [...lines, `Error: ${error.message || 'Failed to submit application'}`]);
         setTerminalStep('idle');
       } finally {

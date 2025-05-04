@@ -6,8 +6,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   try {
@@ -21,7 +21,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Store in Supabase
     const { data, error } = await supabase
       .from('whitelist_applications')
       .insert([
@@ -31,7 +30,8 @@ export async function POST(request: Request) {
           status: 'pending',
           created_at: new Date().toISOString(),
         },
-      ]);
+      ])
+      .select();
 
     if (error) {
       console.error('Supabase error:', error);
