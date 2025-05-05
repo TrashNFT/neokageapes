@@ -11,12 +11,12 @@ const JapaneseGrid = dynamic(() => import('./components/JapaneseGrid'), {
 
 export const metadata = {
   title: 'Neokage Apes',
-  description: 'Cyberpunk NFT Collection',
+  description: 'Where cherry blossoms drift in the shadows of the ape.',
   icons: {
     icon: [
       {
-        url: '/favicon.svg',
-        type: 'image/svg+xml',
+        url: '/logo.png',
+        type: 'image/png',
       }
     ],
   },
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/png" href="/logo.png" />
       </head>
       <body className={`${inter.className} sword-cursor bg-neo-black min-h-screen text-white`}>
         <JapaneseGrid />
